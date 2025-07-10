@@ -10,6 +10,7 @@
 - ⚡ **ZSH Environment**: Oh My Zsh + Powerlevel10k
 - 🤖 **AI-Ready**: PyTorch, CUDA, Docker pre-configured
 - 📱 **Surface Optimized**: Touchscreen, pen, and dGPU support
+- 🔗 **GNU**: Stow-based symlink management
 
 ## Installation
 ```bash
