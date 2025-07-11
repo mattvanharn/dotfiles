@@ -1,0 +1,2 @@
+-- File: lua/config/options.lua
+-- Desc: Fundamental editor settings and behavior configurations
