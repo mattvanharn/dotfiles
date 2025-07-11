@@ -1,0 +1,2 @@
+-- File: lua/config/autocmds.lua
+-- Desc: Automated actions triggered by buffer/window events
