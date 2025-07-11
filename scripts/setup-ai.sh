@@ -21,4 +21,20 @@ sudo nvidia-ctk runtime configure --runtime=docker
 sudo systemctl restart docker
 
 # Verification
-docker run --rm --gpus all nvidia/cuda:12.2.0-base nvidia-smi
+echo "Verifying AI environment:"
+
+verify_cuda() {
+  python3 -c "import torch; print(torch.cuda.is_available())"
+}
+
+verify_docker() {
+  docker run --rm --gpus all nvidia/cuda:12.2.0-base nvidia-smi
+}
+
+if verify_cuda | grep -q True; then
+  echo "✅ CUDA available in PyTorch"
+else
+  echo "❌ CUDA not available"
+fi
+
+verify_docker && echo "✅ Docker GPU access working"
