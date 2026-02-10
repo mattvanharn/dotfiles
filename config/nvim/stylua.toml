@@ -1,6 +1,0 @@
-# ~/dotfiles/config/nvim/stylua.toml
-# Configuration for stylua Lua formatter
-
-indent_type = "Spaces"
-indent_width = 2
-column_width = 120
