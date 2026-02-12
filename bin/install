@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+echo "Installing dotfiles from $DOTFILES_DIR"
+
+# home/ → ~
+echo "Stowing home..."
+stow -v -d "$DOTFILES_DIR" -t ~ home
+
+# config/ → ~/.config
+echo "Stowing config..."
+stow -v -d "$DOTFILES_DIR" -t ~/.config config
+
+# nvim → ~/.config/nvim
+echo "Linking nvim..."
+ln -sfn "$DOTFILES_DIR/nvim" ~/.config/nvim
+
+# Kitty customizations
+echo "Running post-hypr-update"
+bash "$DOTFILES_DIR/bin/post-hypr-update"
+
+echo "Done!"

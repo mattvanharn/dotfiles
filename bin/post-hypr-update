@@ -1,0 +1,16 @@
+#!/bin/bash
+# Run this after each dots-hyprland update
+
+KITTY_CONF="$HOME/.config/kitty/kitty.conf"
+CUSTOM_CONF="$HOME/dotfiles/config/kitty/custom.conf"
+
+# Append include for my custom config (kitty loads it after the base,
+# so my settings override the defaults)
+if ! grep -q "dotfiles/config/kitty/custom.conf" "$KITTY_CONF" 2>/dev/null; then
+	echo "" >> "$KITTY_CONF"
+	echo "# User customizations (managed by dotfiles)" >> "$KITTY_CONF"
+	echo "include $CUSTOM_CONF" >> "$KITTY_CONF"
+	echo "Added kitty custom include"
+else
+	echo "Kitty custom include already present"
+fi

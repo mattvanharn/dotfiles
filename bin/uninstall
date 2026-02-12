@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+echo "Uninstalling dotfiles from $DOTFILES_DIR"
+
+stow -v -D -d "$DOTFILES_DIR" -t ~ home
+stow -v -D -d "$DOTFILES_DIR" -t ~/.config config
+rm -f ~/.config/nvim
+
+echo "Done! (Files remain in $DOTFILES_DIR, only symlinks removed)"

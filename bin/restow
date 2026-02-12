@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+echo "Restowing dotfiles from $DOTFILES_DIR"
+
+stow -v -R -d "$DOTFILES_DIR" -t ~ home
+stow -v -R -d "$DOTFILES_DIR" -t ~/.config config
+ln -sfn "$DOTFILES_DIR/nvim" ~/.config/nvim
+
+echo "Done!"

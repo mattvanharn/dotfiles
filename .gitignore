@@ -1,0 +1,18 @@
+# Editor temp files
+*.swp
+*.swo
+*~
+
+# Compiled/cache
+*.zwc
+*.pyc
+__pycache__/
+
+# Neovim generated
+nvim/spell/*.spl
+nvim/spell/*.sug
+nvim/lazy-lock.json
+
+# OS
+.DS_Store
+Thumbs.db
