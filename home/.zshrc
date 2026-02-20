@@ -30,7 +30,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME=""
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -97,15 +97,13 @@ plugins=(
 	history
 	sudo
 	web-search
-	you-should-use
-	zsh-autosuggestions
-	zsh-syntax-highlighting
 )
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_SYTLE="fg=#666666"
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
 source $ZSH/oh-my-zsh.sh
+
 
 # User configuration
 
@@ -135,3 +133,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# you-should-use
+source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh
+# zsh-syntax-highlighting
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
