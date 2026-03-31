@@ -1,10 +1,17 @@
--- Neovim configuration
--- TODO: Set up LazyVim and plugins
+-- Bootstrap lazy.nvim (plugin manager)
+-- This downloads lazy.nvim on first run if it's not already installed.
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.uv.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
--- Basic settings for now
-vim.opt.number = true         -- line numbers
-vim.opt.relativenumber = true -- relative line numbers
-vim.opt.expandtab = true      -- spaces instead of tabs
-vim.opt.shiftwidth = 2        -- indent width
-vim.opt.tabstop = 2           -- tab width
-vim.opt.clipboard = "unnamedplus" -- use system clipboard
+-- Load config (lua/config/lazy.lua)
+require("config.lazy")

@@ -1,0 +1,3 @@
+-- Custom keymaps — add your own here.
+-- LazyVim keymaps: https://www.lazyvim.org/keymaps
+-- This file is loaded automatically by LazyVim.
