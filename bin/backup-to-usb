@@ -1,0 +1,113 @@
+#!/bin/bash
+set -euo pipefail
+
+# One-command personal backup to USB using rsync.
+# Default target matches your current USB mount path.
+DEFAULT_TARGET="/run/media/$USER/Ventoy/backup"
+
+DRY_RUN=false
+WITH_PROJECTS=false
+TARGET="${DEFAULT_TARGET}"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  backup-to-usb [--dry-run] [--with-projects] [target_path]
+
+Options:
+  --dry-run        Show what would be copied, without writing.
+  --with-projects  Also back up ~/Projects.
+  target_path      Override destination root.
+
+Examples:
+  backup-to-usb
+  backup-to-usb --dry-run
+  backup-to-usb --with-projects
+  backup-to-usb --dry-run /run/media/phoenician/Ventoy/backup
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --dry-run) DRY_RUN=true; shift ;;
+    --with-projects) WITH_PROJECTS=true; shift ;;
+    -h|--help) usage; exit 0 ;;
+    *) TARGET="$1"; shift ;;
+  esac
+done
+
+if [[ ! -d "$TARGET" ]]; then
+  echo "Backup target does not exist: $TARGET"
+  echo "Mount your USB drive, then run again."
+  exit 1
+fi
+
+TIMESTAMP="$(date +%F_%H%M%S)"
+HOST="$(hostname)"
+DEST_ROOT="${TARGET}/${USER}/${HOST}/${TIMESTAMP}"
+
+mkdir -p "$DEST_ROOT"
+
+echo "Backing up to: $DEST_ROOT"
+echo "Dry run: $DRY_RUN"
+echo
+
+RSYNC_OPTS=(
+  -a
+  --human-readable
+  --info=progress2
+  --exclude ".cache/"
+  --exclude ".local/share/Trash/"
+)
+
+if [[ "$DRY_RUN" == true ]]; then
+  RSYNC_OPTS+=(--dry-run --itemize-changes)
+fi
+
+backup_if_exists() {
+  local src="$1"
+  local rel="$2"
+
+  if [[ -e "$src" ]]; then
+    mkdir -p "${DEST_ROOT}/${rel}"
+    # Trailing slash means "contents of directory", no slash means file/dir itself.
+    if [[ -d "$src" ]]; then
+      rsync "${RSYNC_OPTS[@]}" "$src/" "${DEST_ROOT}/${rel}/"
+    else
+      rsync "${RSYNC_OPTS[@]}" "$src" "${DEST_ROOT}/${rel}/"
+    fi
+  else
+    echo "Skipping missing path: $src"
+  fi
+}
+
+# Core personal data
+backup_if_exists "$HOME/Documents" "home/Documents"
+backup_if_exists "$HOME/dotfiles" "home/dotfiles"
+backup_if_exists "$HOME/.ssh" "home/.ssh"
+
+# Useful shell/git state
+backup_if_exists "$HOME/.gitconfig" "home"
+backup_if_exists "$HOME/.zshrc" "home"
+backup_if_exists "$HOME/.zprofile" "home"
+backup_if_exists "$HOME/.p10k.zsh" "home"
+backup_if_exists "$HOME/.zsh_history" "home"
+
+# Optional project backup
+if [[ "$WITH_PROJECTS" == true ]]; then
+  backup_if_exists "$HOME/Projects" "home/Projects"
+fi
+
+# Write backup metadata
+cat > "${DEST_ROOT}/BACKUP_INFO.txt" <<EOF
+created_at=${TIMESTAMP}
+host=${HOST}
+user=${USER}
+target=${TARGET}
+with_projects=${WITH_PROJECTS}
+dry_run=${DRY_RUN}
+EOF
+
+echo
+echo "Backup completed."
+echo "Saved to: $DEST_ROOT"

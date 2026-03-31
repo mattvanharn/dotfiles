@@ -1,0 +1,124 @@
+#!/bin/bash
+set -euo pipefail
+
+# Restore personal files from a backup created by bin/backup-to-usb.
+# Safety-first:
+# - default is DRY RUN (preview only)
+# - requires --apply to actually write files
+
+DEFAULT_TARGET="/run/media/$USER/Ventoy/backup"
+TARGET="${DEFAULT_TARGET}"
+APPLY=false
+WITH_PROJECTS=false
+TIMESTAMP=""
+
+usage() {
+  cat <<'EOF'
+Usage:
+  restore-from-usb [--apply] [--with-projects] [--timestamp YYYY-MM-DD_HHMMSS] [target_path]
+
+Options:
+  --apply                      Actually restore files (default is dry-run preview).
+  --with-projects              Also restore ~/Projects if present in backup.
+  --timestamp <value>          Restore a specific timestamp folder.
+  target_path                  Override backup root (default: /run/media/$USER/Ventoy/backup)
+  -h, --help                   Show help.
+
+Examples:
+  restore-from-usb
+  restore-from-usb --apply
+  restore-from-usb --timestamp 2026-02-20_141500 --apply
+  restore-from-usb --with-projects --apply /run/media/phoenician/Ventoy/backup
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --apply) APPLY=true; shift ;;
+    --with-projects) WITH_PROJECTS=true; shift ;;
+    --timestamp)
+      [[ $# -ge 2 ]] || { echo "Missing value for --timestamp"; exit 1; }
+      TIMESTAMP="$2"
+      shift 2
+      ;;
+    -h|--help) usage; exit 0 ;;
+    *) TARGET="$1"; shift ;;
+  esac
+done
+
+HOST="$(hostname)"
+BASE_DIR="${TARGET}/${USER}/${HOST}"
+
+if [[ ! -d "$BASE_DIR" ]]; then
+  echo "No backups found for user/host at: $BASE_DIR"
+  echo "If hostname changed, pass the target path manually to the old host directory."
+  exit 1
+fi
+
+if [[ -z "$TIMESTAMP" ]]; then
+  TIMESTAMP="$(ls -1 "$BASE_DIR" | sort | tail -n1)"
+fi
+
+SRC_ROOT="${BASE_DIR}/${TIMESTAMP}"
+if [[ ! -d "$SRC_ROOT" ]]; then
+  echo "Backup timestamp not found: $SRC_ROOT"
+  exit 1
+fi
+
+echo "Source backup: $SRC_ROOT"
+if [[ "$APPLY" == true ]]; then
+  echo "Mode: APPLY (files will be restored)"
+else
+  echo "Mode: DRY RUN (no files changed)"
+fi
+echo
+
+RSYNC_OPTS=(
+  -a
+  --human-readable
+  --info=progress2
+)
+
+if [[ "$APPLY" == false ]]; then
+  RSYNC_OPTS+=(--dry-run --itemize-changes)
+fi
+
+restore_if_exists() {
+  local rel_src="$1"   # e.g. home/Documents
+  local dst="$2"       # e.g. $HOME/Documents
+  local src="${SRC_ROOT}/${rel_src}"
+
+  if [[ -e "$src" ]]; then
+    mkdir -p "$(dirname "$dst")"
+    if [[ -d "$src" ]]; then
+      mkdir -p "$dst"
+      rsync "${RSYNC_OPTS[@]}" "$src/" "$dst/"
+    else
+      rsync "${RSYNC_OPTS[@]}" "$src" "$dst"
+    fi
+  else
+    echo "Skipping missing in backup: $rel_src"
+  fi
+}
+
+# Core restores
+restore_if_exists "home/Documents" "$HOME/Documents"
+restore_if_exists "home/dotfiles" "$HOME/dotfiles"
+restore_if_exists "home/.ssh" "$HOME/.ssh"
+
+restore_if_exists "home/.gitconfig" "$HOME/.gitconfig"
+restore_if_exists "home/.zshrc" "$HOME/.zshrc"
+restore_if_exists "home/.zprofile" "$HOME/.zprofile"
+restore_if_exists "home/.p10k.zsh" "$HOME/.p10k.zsh"
+restore_if_exists "home/.zsh_history" "$HOME/.zsh_history"
+
+if [[ "$WITH_PROJECTS" == true ]]; then
+  restore_if_exists "home/Projects" "$HOME/Projects"
+fi
+
+echo
+if [[ "$APPLY" == true ]]; then
+  echo "Restore completed."
+else
+  echo "Dry run completed. Re-run with --apply to perform restore."
+fi

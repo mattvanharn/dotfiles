@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Repo root (shared .git dir parent)
+REPO_ROOT="$(git rev-parse --git-common-dir | xargs dirname)"
+
+# Common local env file (safe if present)
+if [ -f "$REPO_ROOT/.env" ]; then
+  ln -sf "$REPO_ROOT/.env" .env
+fi
+
+# Dotfiles-specific bootstrap (optional)
+if command -v stow >/dev/null 2>&1; then
+  echo "stow available"
+fi

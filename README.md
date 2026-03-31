@@ -15,3 +15,31 @@ git clone https://github.com/mattvanharn/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 bash bin/install
 
+## Backup helper
+
+One-time/periodic USB backup helper:
+
+chmod +x ~/dotfiles/bin/backup-to-usb
+~/dotfiles/bin/backup-to-usb --dry-run
+~/dotfiles/bin/backup-to-usb
+
+Default target:
+
+/run/media/$USER/Ventoy/backup
+
+Add `--with-projects` to also include `~/Projects`.
+
+## Restore helper
+
+Safety-first restore helper (defaults to dry-run preview):
+
+chmod +x ~/dotfiles/bin/restore-from-usb
+~/dotfiles/bin/restore-from-usb
+~/dotfiles/bin/restore-from-usb --apply
+
+Restore a specific backup timestamp:
+
+~/dotfiles/bin/restore-from-usb --timestamp 2026-02-20_141500 --apply
+
+Add `--with-projects` to also restore `~/Projects`.
+

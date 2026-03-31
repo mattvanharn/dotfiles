@@ -26,7 +26,7 @@
   typeset -g MONSTERA_GREEN=#65796C
   typeset -g SECONDARY_GREEN=#7E9385
   typeset -g GOLD=178             # #D4AF37 (rich gold)
-  typeset -g OFF_WHITE=255        # #F5F5F5
+  typeset -g LIGHT_GREEN=245      # #B8BEBB
   typeset -g MEDIUM_GRAY=244      # #7F7F7F
   typeset -g CHARCOAL=239         # #2F4F4F
 
@@ -235,7 +235,7 @@
   # Current directory background color.
   typeset -g POWERLEVEL9K_DIR_BACKGROUND=$MONSTERA_GREEN
   # Default current directory foreground color.
-  typeset -g POWERLEVEL9K_DIR_FOREGROUND=$OFF_WHITE
+  typeset -g POWERLEVEL9K_DIR_FOREGROUND=$LIGHT_GREEN
   # If directory is too long, shorten some of its segments to the shortest possible unique
   # prefix. The shortened directory can be tab-completed to the original.
   typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
@@ -245,7 +245,7 @@
   typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=$MEDIUM_GRAY
   # Color of the anchor directory segments. Anchor segments are never shortened. The first
   # segment is always an anchor.
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=$OFF_WHITE
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=$LIGHT_GREEN
   # Display anchor directory segments in bold.
   typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=true
   # Don't shorten directories that contain any of these files. They are anchors.

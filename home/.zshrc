@@ -18,10 +18,12 @@ fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-# Pyenv
+# Pyenv: --no-rehash stops rehash running on every new shell (avoids lock/hang).
+# You do NOT need to rehash when switching venvs. Only run `pyenv rehash` if you
+# just ran `pyenv install`/`pyenv uninstall` and a new command isn't found.
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
+eval "$(pyenv init - zsh --no-rehash)"
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -109,6 +111,10 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
+# CUDA toolkit (for nvcc and other CUDA tools)
+export PATH="/opt/cuda/bin:$PATH"
+export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -140,3 +146,6 @@ source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+
+# cmux
+source "$HOME/.cmux/cmux.sh"

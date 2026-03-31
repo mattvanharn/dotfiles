@@ -16,3 +16,7 @@ nvim/lazy-lock.json
 # OS
 .DS_Store
 Thumbs.db
+.worktrees/
+
+.worktrees/
+CLAUDE.md
