@@ -1,0 +1,15 @@
+#!/bin/bash
+# .cmux/setup — runs once when `cmux new <branch>` creates a worktree for this repo.
+# Keeps the shell open in the worktree directory for Claude Code.
+set -e
+
+WORKTREE_DIR="$(pwd)"
+echo "Setting up dotfiles worktree at $WORKTREE_DIR"
+
+# Re-stow to make sure symlinks reflect the worktree's files
+# (skip nvim — it stays pointing at the main checkout until this branch is merged)
+echo "Stowing home and config packages..."
+stow -v -d "$WORKTREE_DIR" -t ~ home 2>/dev/null || true
+stow -v -d "$WORKTREE_DIR" -t ~/.config config 2>/dev/null || true
+
+echo "Ready. Start Claude Code or open nvim in a new pane."
