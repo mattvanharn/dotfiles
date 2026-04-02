@@ -158,5 +158,8 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# ── Local secrets (not tracked in git) ───────────────────────────────────────
+[[ -f ~/.config/secrets.zsh ]] && source ~/.config/secrets.zsh
+
 # ── cmux ──────────────────────────────────────────────────────────────────────
 source "$HOME/.cmux/cmux.sh"
