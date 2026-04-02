@@ -44,8 +44,9 @@ fi
 # Return focus to claude.
 tmux select-window -t "claude"
 
+session_name="$(tmux display-message -p '#{session_name}' 2>/dev/null)"
 echo
 echo "Layout ready:"
 echo "  Window 1: claude (top chat, bottom command shell)"
 echo "  Window 2: editor (single shell pane)"
-echo "Open second terminal and run: tmux attach -t dotfiles"
+echo "Open second terminal and run: tmux attach -t ${session_name}"

@@ -1,29 +1,18 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Powerlevel10k customization
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# ── p10k instant prompt (MUST be first — nothing may write to console before this) ──
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-# Support colorscheme for ZSH:
+# Support colorscheme for ZSH
 source ~/.config/zshrc.d/dots-hyprland.zsh
 
 # Auto-launch Hyprland
 source ~/.config/zshrc.d/auto-Hypr.sh
 
-eval $(thefuck --alias)
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# ── Oh My Zsh ─────────────────────────────────────────────────────────────────
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
-
-# Pyenv: --no-rehash stops rehash running on every new shell (avoids lock/hang).
-# You do NOT need to rehash when switching venvs. Only run `pyenv rehash` if you
-# just ran `pyenv install`/`pyenv uninstall` and a new command isn't found.
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh --no-rehash)"
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -82,12 +71,13 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # stamp shown in the history command output.
 # You can set one of the optional three formats:
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
+# or set a custom format using the strftime format specifications,
 # see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
+export ZSH_CUSTOM="$HOME/dotfiles/zsh-custom"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -95,13 +85,12 @@ HIST_STAMPS="yyyy-mm-dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-	git
-	history
-	sudo
-	web-search
+  git
+  history
+  sudo
+  web-search
 )
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_SYTLE="fg=#666666"
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
 source $ZSH/oh-my-zsh.sh
@@ -110,10 +99,6 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
-
-# CUDA toolkit (for nvcc and other CUDA tools)
-export PATH="/opt/cuda/bin:$PATH"
-export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -137,12 +122,41 @@ export VISUAL='nvim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# you-should-use
+# Pyenv: --no-rehash stops rehash running on every new shell (avoids lock/hang).
+# You do NOT need to rehash when switching venvs. Only run `pyenv rehash` if you
+# just ran `pyenv install`/`pyenv uninstall` and a new command isn't found.
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh --no-rehash)"
+
+# dotfiles bin/ scripts on PATH
+export PATH="$HOME/dotfiles/bin:$PATH"
+
+# ── thefuck ───────────────────────────────────────────────────────────────────
+eval $(thefuck --alias)
+
+# ── External plugins ──────────────────────────────────────────────────────────
+# zsh-autosuggestions: grey text completes from history as you type; → to accept
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#666666"
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# you-should-use: reminds you when an alias exists for a command you typed
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh
-# zsh-syntax-highlighting
+
+# zsh-history-substring-search: up/down arrows search history by what you've typed
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# fzf: Ctrl-R (fuzzy history), Ctrl-T (fuzzy file insert), Alt-C (fuzzy cd)
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
+# zsh-syntax-highlighting: colorizes commands as you type (must load last)
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# cmux
+# ── cmux ──────────────────────────────────────────────────────────────────────
 source "$HOME/.cmux/cmux.sh"
