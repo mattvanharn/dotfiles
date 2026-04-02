@@ -3,6 +3,11 @@ alias tl='tmux list-sessions'
 alias ta='tmux attach -t'       # usage: ta ffai
 alias tn='tmux new -s'          # usage: tn myproject
 alias tk='tmux kill-session -t'
+alias side='tmux_dual_view.sh'  # usage: side ffai — opens grouped side session
+
+# ── Claude Code ───────────────────────────────────────────────────────────────
+alias cc='claude --continue'    # resume last conversation in this directory
+alias cn='claude'               # new conversation (throwaway / one-off)
 
 # ── Dotfiles config editing ───────────────────────────────────────────────────
 # These are symlinked — editing them edits the repo directly
