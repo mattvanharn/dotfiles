@@ -3,16 +3,16 @@
 --   1. Set AVANTE_ANTHROPIC_API_KEY in ~/.config/secrets.zsh
 --   2. Change provider = "claude" and add claude config below
 return {
-  {
-    "yetone/avante.nvim",
-    opts = {
-      provider = "gemini",
-      providers = {
-        gemini = {
-          model = "gemini-3-flash-preview",
-          timeout = 30000,
-        },
-      },
-    },
-  },
+	{
+		"yetone/avante.nvim",
+		opts = {
+			provider = "gemini",
+			providers = {
+				gemini = {
+					model = "gemini-3-flash-preview",
+					timeout = 30000,
+				},
+			},
+		},
+	},
 }
