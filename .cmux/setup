@@ -1,52 +1,11 @@
 #!/bin/bash
-# Dotfiles cmux setup hook
-# Runs when `cmux new <branch>` creates/opens a worktree.
+# cmux setup hook — runs when `cmux new <branch>` creates a worktree.
+# With claudecode.nvim + avante inside neovim, we don't need separate
+# Claude or command panes. Just open the editor.
 set -euo pipefail
 
-echo "Setting up dotfiles worktree..."
-echo "Setting up tmux layout..."
-
-# If not in tmux, skip layout setup gracefully.
-if [[ -z "${TMUX:-}" ]]; then
-  echo "Not in tmux; skipping window layout."
-  echo "Start tmux first if you want auto layout:"
-  echo "  tmux new -s dotfiles"
-  exit 0
+if [[ -n "${TMUX:-}" ]]; then
+  tmux rename-window "editor"
 fi
 
-# Current pane path
-current_path="$(tmux display-message -p "#{pane_current_path}")"
-
-# Keep current window as claude.
-tmux rename-window "claude"
-
-# Ensure claude window has a small command pane at bottom.
-pane_count="$(tmux display-message -p "#{window_panes}")"
-if [[ "$pane_count" -eq 1 ]]; then
-  tmux split-window -v -p 25 -c "$current_path"
-fi
-
-# Focus top pane in a pane-base-index-safe way.
-pbi="$(tmux show -gv pane-base-index 2>/dev/null || echo 0)"
-tmux select-window -t "claude"
-tmux select-pane -t "claude.${pbi}"
-
-# Create/find editor window as a single shell pane.
-if tmux list-windows -F "#{window_name}" | grep -qx "editor"; then
-  tmux select-window -t "editor"
-  while [[ "$(tmux display-message -p "#{window_panes}")" -gt 1 ]]; do
-    tmux kill-pane -a
-  done
-else
-  tmux new-window -n "editor" -c "$current_path"
-fi
-
-# Return focus to claude.
-tmux select-window -t "claude"
-
-session_name="$(tmux display-message -p '#{session_name}' 2>/dev/null)"
-echo
-echo "Layout ready:"
-echo "  Window 1: claude (top chat, bottom command shell)"
-echo "  Window 2: editor (single shell pane)"
-echo "Open second terminal and run: tmux attach -t ${session_name}"
+echo "Worktree ready. Open neovim, then <leader>ac for Claude Code."
