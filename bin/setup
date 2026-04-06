@@ -16,6 +16,10 @@ stow -v -d "$DOTFILES_DIR" -t ~/.config config
 echo "Linking nvim..."
 ln -sfn "$DOTFILES_DIR/nvim" ~/.config/nvim
 
+# nvim → ~/.config/nvim-pack
+echo "Linking nvim-pack..."
+ln -sfn "$DOTFILES_DIR/nvim-pack" ~/.config/nvim-pack
+
 # Kitty customizations
 echo "Running post-hypr-update"
 bash "$DOTFILES_DIR/bin/post-hypr-update"

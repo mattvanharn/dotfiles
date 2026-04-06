@@ -40,25 +40,6 @@ return {
 				},
 			})
 			vim.cmd("colorscheme leaf")
-
-			-- Claude Code chat: cream background, targeted by buffer name
-			vim.api.nvim_create_autocmd("TermOpen", {
-				callback = function(ev)
-					local name = vim.api.nvim_buf_get_name(ev.buf)
-					if name:lower():find("claude") then
-						vim.api.nvim_set_hl(0, "ClaudeChatNormal", { bg = palette.cream })
-						vim.schedule(function()
-							for _, win in ipairs(vim.fn.win_findbuf(ev.buf)) do
-								vim.api.nvim_set_option_value(
-									"winhighlight",
-									"Normal:ClaudeChatNormal,NormalFloat:ClaudeChatNormal",
-									{ win = win }
-								)
-							end
-						end)
-					end
-				end,
-			})
 		end,
 	},
 

@@ -12,6 +12,7 @@ __pycache__/
 nvim/spell/*.spl
 nvim/spell/*.sug
 nvim/lazy-lock.json
+nvim-pack/nvim-pack-lock.json
 
 # OS
 .DS_Store

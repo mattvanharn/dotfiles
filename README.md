@@ -13,7 +13,7 @@ My personal dotfiles, managed with [GNU Stow](https://www.gnu.org/software/stow/
 
 git clone https://github.com/mattvanharn/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-bash bin/install
+bash bin/setup
 
 ## Backup helper
 

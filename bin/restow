@@ -7,5 +7,6 @@ echo "Restowing dotfiles from $DOTFILES_DIR"
 stow -v -R -d "$DOTFILES_DIR" -t ~ home
 stow -v -R -d "$DOTFILES_DIR" -t ~/.config config
 ln -sfn "$DOTFILES_DIR/nvim" ~/.config/nvim
+ln -sfn "$DOTFILES_DIR/nvim-pack" ~/.config/nvim-pack
 
 echo "Done!"
