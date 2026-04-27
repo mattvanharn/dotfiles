@@ -122,13 +122,6 @@ export VISUAL='nvim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Pyenv: --no-rehash stops rehash running on every new shell (avoids lock/hang).
-# You do NOT need to rehash when switching venvs. Only run `pyenv rehash` if you
-# just ran `pyenv install`/`pyenv uninstall` and a new command isn't found.
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh --no-rehash)"
-
 # dotfiles bin/ scripts on PATH
 export PATH="$HOME/dotfiles/bin:$PATH"
 
