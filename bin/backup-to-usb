@@ -42,6 +42,13 @@ if [[ ! -d "$TARGET" ]]; then
   exit 1
 fi
 
+available=$(df -BG "$TARGET" | awk 'NR==2 {print $4}' | tr -d 'G')
+if (( available < 5 )); then
+  echo "Warning: less than 5GB free on $TARGET (${available}GB available)"
+  read -r -p "Continue anyway? [y/N] " reply
+  [[ "$reply" =~ ^[Yy]$ ]] || exit 1
+fi
+
 TIMESTAMP="$(date +%F_%H%M%S)"
 HOST="$(hostname)"
 DEST_ROOT="${TARGET}/${USER}/${HOST}/${TIMESTAMP}"
@@ -59,23 +66,41 @@ RSYNC_OPTS=(
   --info=progress2
   --exclude ".cache/"
   --exclude ".local/share/Trash/"
+  --exclude ".venv/"
+  --exclude "venv/"
+  --exclude "__pycache__/"
+  --exclude "*.pyc"
+  --exclude "node_modules/"
+  --exclude ".git/"
+)
+
+RSYNC_OPTS_PROJECTS=(
+  "${RSYNC_OPTS[@]}"
+  --exclude "*.gguf"
+  --exclude "*.pt"
+  --exclude "*.pth"
+  --exclude "*.safetensors"
+  --exclude "*.bin"
+  --exclude "data/"
+  --exclude "datasets/"
 )
 
 if [[ "$DRY_RUN" == true ]]; then
   RSYNC_OPTS+=(--dry-run --itemize-changes)
+  RSYNC_OPTS_PROJECTS+=(--dry-run --itemize-changes)
 fi
 
 backup_if_exists() {
   local src="$1"
   local rel="$2"
+  local -n opts_ref="${3:-RSYNC_OPTS}"
 
   if [[ -e "$src" ]]; then
     mkdir -p "${DEST_ROOT}/${rel}"
-    # Trailing slash means "contents of directory", no slash means file/dir itself.
     if [[ -d "$src" ]]; then
-      rsync "${RSYNC_OPTS[@]}" "$src/" "${DEST_ROOT}/${rel}/" || echo "Warning: some files from $src were not fully transferred"
+      rsync "${opts_ref[@]}" "$src/" "${DEST_ROOT}/${rel}/" || echo "Warning: some files from $src were not fully transferred"
     else
-      rsync "${RSYNC_OPTS[@]}" "$src" "${DEST_ROOT}/${rel}/" || echo "Warning: some files from $src were not fully transferred"
+      rsync "${opts_ref[@]}" "$src" "${DEST_ROOT}/${rel}/" || echo "Warning: some files from $src were not fully transferred"
     fi
   else
     echo "Skipping missing path: $src"
@@ -83,11 +108,15 @@ backup_if_exists() {
 }
 
 # Core personal data
+echo "→ Backing up Documents..."
 backup_if_exists "$HOME/Documents" "home/Documents"
+echo "→ Backing up dotfiles..."
 backup_if_exists "$HOME/dotfiles" "home/dotfiles"
+echo "→ Backing up SSH keys..."
 backup_if_exists "$HOME/.ssh" "home/.ssh"
 
 # Useful shell/git state
+echo "→ Backing up shell config..."
 backup_if_exists "$HOME/.gitconfig" "home"
 backup_if_exists "$HOME/.zshrc" "home"
 backup_if_exists "$HOME/.zprofile" "home"
@@ -95,6 +124,7 @@ backup_if_exists "$HOME/.p10k.zsh" "home"
 backup_if_exists "$HOME/.zsh_history" "home"
 
 # Additional configs not tracked in git
+echo "→ Backing up secrets and auth..."
 backup_if_exists "$HOME/.config/secrets.zsh" "home/.config"
 backup_if_exists "$HOME/.claude" "home/.claude"
 backup_if_exists "$HOME/.gnupg" "home/.gnupg"
@@ -104,6 +134,7 @@ backup_if_exists "$HOME/.cmux" "home/.cmux"
 if [[ "$DRY_RUN" == true ]]; then
   echo "[dry-run] Would save pacman explicit and AUR package lists"
 else
+  echo "→ Saving package lists..."
   pacman -Qqe > "${DEST_ROOT}/pkglist-explicit.txt"
   pacman -Qqm > "${DEST_ROOT}/pkglist-aur.txt"
   echo "Package lists saved."
@@ -111,7 +142,8 @@ fi
 
 # Optional project backup
 if [[ "$WITH_PROJECTS" == true ]]; then
-  backup_if_exists "$HOME/Projects" "home/Projects"
+  echo "→ Backing up Projects (excluding model weights and datasets)..."
+  backup_if_exists "$HOME/Projects" "home/Projects" RSYNC_OPTS_PROJECTS
 fi
 
 # Write backup metadata
