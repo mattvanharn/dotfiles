@@ -1,0 +1,2 @@
+-- Colorscheme: leaf.nvim with custom olive palette
+-- Must load before any UI plugin (statusline, indent guides, etc.)

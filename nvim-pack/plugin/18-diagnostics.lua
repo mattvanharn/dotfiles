@@ -1,0 +1,3 @@
+-- Diagnostic display configuration (built-in vim.diagnostic)
+-- Signs, virtual text, float windows, severity filtering.
+-- This configures how LSP errors/warnings appear — no plugin needed.

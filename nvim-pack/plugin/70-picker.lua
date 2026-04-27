@@ -1,0 +1,3 @@
+-- File picker: fzf-lua
+-- Find files, live grep, buffers, LSP symbols, diagnostics, etc.
+-- Requires fzf to be installed on the system (pacman -S fzf).

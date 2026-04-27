@@ -1,0 +1,4 @@
+-- Neovim 0.12 built-in tools
+-- packadd nvim.undotree — undo tree browser (:Undotree)
+-- packadd nvim.difftool — file/directory diff viewer (:DiffTool)
+-- Keymaps for both.

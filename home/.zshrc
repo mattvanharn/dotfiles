@@ -163,3 +163,13 @@ source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 
 # ── cmux ──────────────────────────────────────────────────────────────────────
 source "$HOME/.cmux/cmux.sh"
+
+# ── tmux auto-attach ───────────────────────────────────────────────────────────
+# Open terminals directly in tmux. Attaches to "scratch" if it exists, creates
+# it if not. The -z TMUX check prevents nesting when already inside tmux.
+if [[ -z "$TMUX" ]] && command -v tmux &>/dev/null; then
+  tmux new-session -A -s scratch
+fi
+
+# ── stripclip ──────────────────────────────────────────────────────────────────────
+alias stripclip='wl-paste | ansifilter | wl-copy'

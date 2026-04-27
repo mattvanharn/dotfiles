@@ -1,0 +1,3 @@
+-- Global keymaps (not plugin-specific)
+-- Navigation, window management, buffer switching, etc.
+-- Plugin-specific keymaps go in each plugin's file.

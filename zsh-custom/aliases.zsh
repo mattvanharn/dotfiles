@@ -1,7 +1,8 @@
 # ── Tmux ──────────────────────────────────────────────────────────────────────
 alias tl='tmux list-sessions'
-alias ta='tmux attach -t'       # usage: ta ffai
-alias tn='tmux new -s'          # usage: tn myproject
+alias ta='tmux switch-client -t'                                      # usage: ta ffai — switch-client, not attach, when already inside tmux
+tn()  { tmux new-session -d -s "$1" && tmux switch-client -t "$1"; } # usage: tn myproject
+tas() { tmux switch-client -t "${1}-side"; }                          # usage: tas myproject
 alias tk='tmux kill-session -t'
 alias side='tmux_dual_view.sh'  # usage: side ffai — opens grouped side session
 

@@ -1,0 +1,2 @@
+-- Autocommands — automatic behaviors triggered by events
+-- Highlight on yank, restore cursor position, trim trailing whitespace, etc.

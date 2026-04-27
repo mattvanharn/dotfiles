@@ -1,0 +1,4 @@
+-- Treesitter: syntax highlighting, text objects, incremental selection
+-- nvim-treesitter + nvim-treesitter-textobjects
+-- Enables selecting/moving by function, class, argument — essential for Python.
+-- Also enables built-in gc commenting (works automatically with treesitter).

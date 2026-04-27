@@ -1,0 +1,3 @@
+-- Lua-specific settings
+-- Runs only when opening a .lua file.
+-- 2-space indentation (Lua/Neovim convention), etc.

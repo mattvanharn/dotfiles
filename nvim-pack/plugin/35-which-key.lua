@@ -1,0 +1,2 @@
+-- Which-key: shows available keymaps after pressing leader
+-- Huge for discoverability — press <Space> and see what's available.

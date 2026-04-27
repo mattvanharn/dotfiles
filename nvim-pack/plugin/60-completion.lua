@@ -1,0 +1,2 @@
+-- Completion: blink.cmp + friendly-snippets
+-- LSP completion, snippet expansion, path completion, buffer words.

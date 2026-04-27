@@ -1,0 +1,3 @@
+-- basedpyright: Python type checking and LSP
+-- Loaded automatically when vim.lsp.enable('basedpyright') is called.
+-- See: https://docs.basedpyright.com
