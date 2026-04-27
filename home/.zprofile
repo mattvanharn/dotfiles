@@ -9,7 +9,4 @@ export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_SESSION_TYPE=wayland
 export MOZ_ENABLE_WAYLAND=1
 
-# NVIDIA Wayland support (Yoga 720 GTX 1050M)
-export GBM_BACKEND=nvidia-drm
-export __GLX_VENDOR_LIBRARY_NAME=nvidia
 export WLR_NO_HARDWARE_CURSORS=
