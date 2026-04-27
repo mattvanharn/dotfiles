@@ -54,6 +54,7 @@ echo
 
 RSYNC_OPTS=(
   -a
+  --no-links
   --human-readable
   --info=progress2
   --exclude ".cache/"
