@@ -93,6 +93,21 @@ backup_if_exists "$HOME/.zprofile" "home"
 backup_if_exists "$HOME/.p10k.zsh" "home"
 backup_if_exists "$HOME/.zsh_history" "home"
 
+# Additional configs not tracked in git
+backup_if_exists "$HOME/.config/secrets.zsh" "home/.config"
+backup_if_exists "$HOME/.claude" "home/.claude"
+backup_if_exists "$HOME/.gnupg" "home/.gnupg"
+backup_if_exists "$HOME/.cmux" "home/.cmux"
+
+# Package lists
+if [[ "$DRY_RUN" == true ]]; then
+  echo "[dry-run] Would save pacman explicit and AUR package lists"
+else
+  pacman -Qqe > "${DEST_ROOT}/pkglist-explicit.txt"
+  pacman -Qqm > "${DEST_ROOT}/pkglist-aur.txt"
+  echo "Package lists saved."
+fi
+
 # Optional project backup
 if [[ "$WITH_PROJECTS" == true ]]; then
   backup_if_exists "$HOME/Projects" "home/Projects"
