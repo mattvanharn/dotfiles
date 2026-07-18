@@ -8,5 +8,3 @@ export XDG_STATE_HOME="$HOME/.local/state"
 # Wayland
 export XDG_SESSION_TYPE=wayland
 export MOZ_ENABLE_WAYLAND=1
-
-export WLR_NO_HARDWARE_CURSORS=
