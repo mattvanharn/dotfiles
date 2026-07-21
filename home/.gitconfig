@@ -5,9 +5,38 @@
     name = Matt Van Harn
 [core]
     editor = nvim
+	pager = delta
 [credential "https://github.com"]
     helper =
     helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
     helper =
     helper = !/usr/bin/gh auth git-credential
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[fetch]
+	prune = true
+[rerere]
+	enabled = true
+[diff]
+	algorithm = histogram
+[merge]
+	conflictstyle = zdiff3
+[commit]
+	verbose = true
+[branch]
+	sort = -committerdate
+[tag]
+	sort = -version:refname
+[column]
+	ui = auto
+[log]
+	date = iso
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+	hyperlinks = true
