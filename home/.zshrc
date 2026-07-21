@@ -125,8 +125,17 @@ export VISUAL='nvim'
 # dotfiles bin/ scripts on PATH
 export PATH="$HOME/dotfiles/bin:$PATH"
 
+# uv tool shims (ruff, etc.) install here
+export PATH="$HOME/.local/bin:$PATH"
+
 # ── thefuck ───────────────────────────────────────────────────────────────────
 eval $(thefuck --alias)
+
+# ── Tool init (guarded so a missing tool can't break the shell) ───────────────
+# zoxide: smarter cd — `z <partial-dir>` jumps to a frecent match
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+# direnv: auto-load/unload a project's env (e.g. its venv) on cd
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 
 # ── External plugins ──────────────────────────────────────────────────────────
 # zsh-autosuggestions: grey text completes from history as you type; → to accept
