@@ -122,11 +122,11 @@ export VISUAL='nvim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# dotfiles bin/ scripts on PATH
-export PATH="$HOME/dotfiles/bin:$PATH"
-
-# uv tool shims (ruff, etc.) install here
-export PATH="$HOME/.local/bin:$PATH"
+# PATH: dotfiles/bin (scripts) + .local/bin (uv tool shims).
+# Also set in .zprofile so GUI apps inherit it; `typeset -U` dedupes.
+typeset -U path PATH
+path=("$HOME/dotfiles/bin" "$HOME/.local/bin" $path)
+export PATH
 
 # ── thefuck ───────────────────────────────────────────────────────────────────
 eval $(thefuck --alias)
