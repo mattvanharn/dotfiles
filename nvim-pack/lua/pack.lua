@@ -26,4 +26,5 @@ vim.pack.add({
   gh('folke/tokyonight.nvim'),
   gh('folke/which-key.nvim'),
   gh('nvim-treesitter/nvim-treesitter'),
+  gh('neovim/nvim-lspconfig'),
 }, { confirm = false })
