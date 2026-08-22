@@ -1,3 +1,0 @@
--- ruff: fast Python linter and formatter (LSP mode)
--- Loaded automatically when vim.lsp.enable('ruff') is called.
--- See: https://docs.astral.sh/ruff

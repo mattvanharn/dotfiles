@@ -1,3 +1,0 @@
--- File explorer: oil.nvim
--- Browse and edit the filesystem like a normal buffer.
--- Open with - (hyphen) from any buffer to see its parent directory.

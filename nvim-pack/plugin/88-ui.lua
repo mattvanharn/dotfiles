@@ -1,3 +1,0 @@
--- UI extras: indent-blankline.nvim + todo-comments.nvim
--- Indent guides: visual lines showing indentation level (treesitter-aware scope).
--- Todo comments: highlights TODO, FIXME, HACK, NOTE in comments. Searchable via fzf-lua.

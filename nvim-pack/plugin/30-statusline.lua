@@ -1,2 +1,0 @@
--- Statusline: lualine.nvim with custom olive theme
--- Depends on colorscheme being loaded first (20-colorscheme.lua)

@@ -1,3 +1,0 @@
--- Core editor settings (vim.opt)
--- No plugins here — just how the editor behaves.
--- Line numbers, tabs/spaces, search, scroll, splits, etc.

@@ -1,3 +1,0 @@
--- lua_ls: Lua language server (for Neovim config editing)
--- Loaded automatically when vim.lsp.enable('lua_ls') is called.
--- See: https://luals.github.io

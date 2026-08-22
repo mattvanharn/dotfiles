@@ -1,3 +1,0 @@
--- LSP: native vim.lsp.enable() (Neovim 0.12 built-in, no lspconfig needed)
--- Servers: basedpyright (Python), lua_ls (Lua), ruff (Python linting/formatting)
--- Includes on_attach keymaps (go-to-definition, hover, rename, etc.)

@@ -1,3 +1,0 @@
--- Editing helpers: nvim-autopairs + mini.surround
--- Autopairs: auto-close brackets, quotes, parentheses as you type.
--- Surround: change/add/delete surrounding characters (e.g. change " to ', wrap in {}).

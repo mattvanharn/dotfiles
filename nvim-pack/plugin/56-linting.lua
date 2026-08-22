@@ -1,3 +1,0 @@
--- Linting: nvim-lint
--- Async linting alongside LSP diagnostics.
--- Catches things LSP might miss (e.g. ruff rules not covered by basedpyright).

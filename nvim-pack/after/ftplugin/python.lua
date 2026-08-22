@@ -1,3 +1,0 @@
--- Python-specific settings
--- Runs only when opening a .py file.
--- Indentation, textwidth, filetype-specific keymaps, etc.

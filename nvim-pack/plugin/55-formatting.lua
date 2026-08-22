@@ -1,3 +1,0 @@
--- Formatting: conform.nvim
--- Format-on-save with per-filetype formatters.
--- Python: ruff format. Lua: stylua.

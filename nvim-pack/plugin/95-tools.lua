@@ -1,2 +1,0 @@
--- Tools: claudecode.nvim
--- Claude Code CLI integration — lazy-loaded after startup.

@@ -1,3 +1,0 @@
--- Git: gitsigns.nvim
--- Shows added/changed/deleted lines in the sign column (gutter).
--- Inline blame, hunk staging, hunk preview.
