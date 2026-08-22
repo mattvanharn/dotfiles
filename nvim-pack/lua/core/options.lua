@@ -50,3 +50,9 @@ o.list = true
 o.listchars = 'tab:» ,trail:·,nbsp:␣'
 
 o.showmode = false
+
+-- Folding via treesitter. vim.treesitter.foldexpr is a core function and works
+-- with Neovim's bundled parsers, so this does not depend on nvim-treesitter.
+o.foldmethod = 'expr'
+o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+o.foldlevel = 99

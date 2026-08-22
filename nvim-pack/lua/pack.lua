@@ -6,10 +6,15 @@ vim.api.nvim_create_autocmd('PackChanged', {
   group = hooks,
   callback = function(ev)
     local name, kind = ev.data.spec.name, ev.data.kind
-    -- Placeholder: real hooks (e.g. :TSUpdate) get added as plugins arrive.
-    vim.schedule(function()
-      vim.notify(('pack: %s (%s)'):format(name, kind), vim.log.levels.INFO)
-    end)
+    if name ~= 'nvim-treesitter' or kind == 'delete' then
+      return
+    end
+    -- On a cold install the plugin is on disk but not yet loaded.
+    if not ev.data.active then
+      pcall(vim.cmd.packadd, 'nvim-treesitter')
+    end
+    -- Parsers and queries are versioned together; a stale parser breaks queries.
+    require('nvim-treesitter').update(nil, { summary = true }):wait(300000)
   end,
 })
 
@@ -20,4 +25,5 @@ end
 vim.pack.add({
   gh('folke/tokyonight.nvim'),
   gh('folke/which-key.nvim'),
+  gh('nvim-treesitter/nvim-treesitter'),
 }, { confirm = false })

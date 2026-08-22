@@ -11,3 +11,4 @@ require('pack')
 -- Plugin configuration, in load order. Comment a line out to disable one.
 require('plugins.tokyonight')
 require('plugins.which-key')
+require('plugins.treesitter')
